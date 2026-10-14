@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { BRIDE_INFO, GROOM_INFO } from "../../const"
+import { BRIDE_INFO, GROOM_INFO, MEAL_LOCATION, MEAL_TIME } from "../../const"
 import { STATIC_ONLY } from "../../env"
 import { Button } from "../button"
 import { LazyDiv } from "../lazyDiv"
@@ -16,9 +16,9 @@ export const Information1 = () => {
       <div className="info-card">
         <div className="label">식사 안내</div>
         <div className="content">
-          식사시간: 12시 30분 ~ 14시 30분
+          식사시간: {MEAL_TIME}
           <br />
-          장소: 지하 1층 연회장
+          장소: {MEAL_LOCATION}
         </div>
       </div>
     </>
@@ -129,25 +129,16 @@ export const Information2 = () => {
  * @returns {JSX.Element} 정보 안내 섹션
  */
 export const Information = () => {
-  // 정적 모드일 경우 참석 의사 전달 기능을 제외합니다.
-  if (STATIC_ONLY) {
-    return (
-      <>
-        <LazyDiv className="card information">
-          <Information1 />
-        </LazyDiv>
-        <LazyDiv className="card information">
-          <Information2 />
-        </LazyDiv>
-      </>
-    )
-  }
-
+  // 식사와 계좌 안내를 각각 표시해 데스크톱에서도 두 카드를 균형 있게 배치합니다.
   return (
-    <LazyDiv className="card information">
-      <Information1 />
-      <Information2 />
-      <AttendanceInfo />
-    </LazyDiv>
+    <>
+      <LazyDiv className="card information">
+        <Information1 />
+        {!STATIC_ONLY && <AttendanceInfo />}
+      </LazyDiv>
+      <LazyDiv className="card information">
+        <Information2 />
+      </LazyDiv>
+    </>
   )
 }

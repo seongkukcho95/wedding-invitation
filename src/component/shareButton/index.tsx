@@ -11,7 +11,7 @@ import ktalkIcon from "../../icons/ktalk-icon.png"
 import { LazyDiv } from "../lazyDiv"
 import { useKakao } from "../store"
 
-const baseUrl = import.meta.env.BASE_URL
+const baseUrl = import.meta.env.BASE_URL.replace(/\/?$/, "/")
 
 /**
  * 카카오톡으로 초대장을 공유할 수 있는 버튼 컴포넌트입니다.
@@ -20,6 +20,8 @@ const baseUrl = import.meta.env.BASE_URL
  */
 export const ShareButton = () => {
   const kakao = useKakao()
+  // 하위 경로에 배포해도 공유 주소와 미리보기 이미지 경로가 일치하도록 구성합니다.
+  const invitationUrl = new URL(baseUrl, window.location.origin).href
   return (
     <LazyDiv className="footer share-button">
       <button
@@ -39,39 +41,18 @@ export const ShareButton = () => {
               title: `${GROOM_FULLNAME} ❤️ ${BRIDE_FULLNAME}의 결혼식에 초대합니다.`,
               description:
                 WEDDING_DATE.format(WEDDING_DATE_FORMAT) + "\n" + LOCATION,
-              imageUrl:
-                window.location.protocol +
-                "//" +
-                window.location.host +
-                baseUrl +
-                "/preview_image.png",
+              imageUrl: new URL("preview_image.png", invitationUrl).href,
               link: {
-                mobileWebUrl:
-                  window.location.protocol +
-                  "//" +
-                  window.location.host +
-                  baseUrl,
-                webUrl:
-                  window.location.protocol +
-                  "//" +
-                  window.location.host +
-                  baseUrl,
+                mobileWebUrl: invitationUrl,
+                webUrl: invitationUrl,
               },
             },
             buttons: [
               {
                 title: "초대장 보기",
                 link: {
-                  mobileWebUrl:
-                    window.location.protocol +
-                    "//" +
-                    window.location.host +
-                    baseUrl,
-                  webUrl:
-                    window.location.protocol +
-                    "//" +
-                    window.location.host +
-                    baseUrl,
+                  mobileWebUrl: invitationUrl,
+                  webUrl: invitationUrl,
                 },
               },
             ],

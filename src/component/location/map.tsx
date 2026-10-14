@@ -6,8 +6,8 @@ import tmapIcon from "../../icons/tmap-icon.png"
 import LockIcon from "../../icons/lock-icon.svg?react"
 import UnlockIcon from "../../icons/unlock-icon.svg?react"
 import {
-  KMAP_PLACE_ID,
   LOCATION,
+  LOCATION_SEARCH_NAME,
   NMAP_PLACE_ID,
   WEDDING_HALL_POSITION,
 } from "../../const"
@@ -20,7 +20,18 @@ import { NAVER_MAP_CLIENT_ID } from "../../env"
  */
 export const Map = () => {
   // 네이버 지도 클라이언트 ID가 설정되어 있을 때만 지도를 렌더링합니다.
-  return NAVER_MAP_CLIENT_ID ? <NaverMap /> : <div>Map is not available</div>
+  return (
+    <>
+      {NAVER_MAP_CLIENT_ID ? (
+        <NaverMap />
+      ) : (
+        <div className="map-unavailable">
+          아래 지도 버튼을 눌러 오시는 길을 확인해 주세요.
+        </div>
+      )}
+      <Navigation />
+    </>
+  )
 }
 
 /**
@@ -28,27 +39,12 @@ export const Map = () => {
  */
 const NaverMap = () => {
   const naver = useNaver()
-  const kakao = useKakao()
   const ref = useRef<HTMLDivElement>(null)
 
   // 모바일에서 스크롤 중 지도가 조작되는 것을 방지하기 위한 잠금 상태
   const [locked, setLocked] = useState(true)
   const [showLockMessage, setShowLockMessage] = useState(false)
   const lockMessageTimeout = useRef<number | null>(null)
-
-  /**
-   * 사용자 기기 종류(iOS, Android 등)를 확인합니다.
-   */
-  const checkDevice = () => {
-    const userAgent = window.navigator.userAgent
-    if (userAgent.match(/(iPhone|iPod|iPad)/)) {
-      return "ios"
-    } else if (userAgent.match(/(Android)/)) {
-      return "android"
-    } else {
-      return "other"
-    }
-  }
 
   useEffect(() => {
     // 네이버 지도 SDK가 로드되면 지도를 초기화합니다.
@@ -131,7 +127,31 @@ const NaverMap = () => {
         {/* 지도가 렌더링될 실제 요소 */}
         <div className="map-inner" ref={ref}></div>
       </div>
+    </>
+  )
+}
 
+/** 지도 SDK 설정 여부와 관계없이 길찾기 버튼을 제공합니다. */
+const Navigation = () => {
+  const kakao = useKakao()
+  const kakaoMapUrl = `https://map.kakao.com/link/map/${encodeURIComponent(LOCATION_SEARCH_NAME)},${WEDDING_HALL_POSITION[1]},${WEDDING_HALL_POSITION[0]}`
+
+  /**
+   * 사용자 기기 종류(iOS, Android 등)를 확인합니다.
+   */
+  const checkDevice = () => {
+    const userAgent = window.navigator.userAgent
+    if (userAgent.match(/(iPhone|iPod|iPad)/)) {
+      return "ios"
+    } else if (userAgent.match(/(Android)/)) {
+      return "android"
+    } else {
+      return "other"
+    }
+  }
+
+  return (
+    <>
       {/* 내비게이션 앱 연결 버튼 모음 */}
       <div className="navigation">
         {/* 네이버 지도 연동 */}
@@ -161,19 +181,19 @@ const NaverMap = () => {
             switch (checkDevice()) {
               case "ios":
               case "android":
-                if (kakao)
+                if (kakao) {
                   kakao.Navi.start({
-                    name: LOCATION,
+                    name: LOCATION_SEARCH_NAME,
                     x: WEDDING_HALL_POSITION[0],
                     y: WEDDING_HALL_POSITION[1],
                     coordType: "wgs84",
                   })
+                } else {
+                  window.open(kakaoMapUrl, "_blank", "noopener,noreferrer")
+                }
                 break
               default:
-                window.open(
-                  `https://map.kakao.com/link/map/${KMAP_PLACE_ID}`,
-                  "_blank",
-                )
+                window.open(kakaoMapUrl, "_blank")
                 break
             }
           }}

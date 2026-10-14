@@ -1,4 +1,11 @@
 .location {
+  .map-unavailable {
+    padding: 1rem 0.5rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    background-color: var(--alt-bg-color);
+  }
+
   .addr {
     line-height: 2;
     margin-bottom: 1rem;
@@ -121,6 +128,10 @@
     .content {
       font-size: 0.9rem;
       line-height: 1.4;
+
+      .bus-stop + .bus-stop {
+        margin-top: 0.7rem;
+      }
     }
   }
 }

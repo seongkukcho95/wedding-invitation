@@ -44,6 +44,18 @@ jobs:
 
       - name: Build
         run: npm run build
+        # 실제 연락처·계좌는 저장소 파일 대신 Secrets에서 빌드 시 주입합니다.
+        env:
+          VITE_GROOM_PHONE: ${{ secrets.VITE_GROOM_PHONE }}
+          VITE_GROOM_ACCOUNT: ${{ secrets.VITE_GROOM_ACCOUNT }}
+          VITE_GROOM_MOTHER_PHONE: ${{ secrets.VITE_GROOM_MOTHER_PHONE }}
+          VITE_GROOM_MOTHER_ACCOUNT: ${{ secrets.VITE_GROOM_MOTHER_ACCOUNT }}
+          VITE_BRIDE_PHONE: ${{ secrets.VITE_BRIDE_PHONE }}
+          VITE_BRIDE_ACCOUNT: ${{ secrets.VITE_BRIDE_ACCOUNT }}
+          VITE_BRIDE_FATHER_PHONE: ${{ secrets.VITE_BRIDE_FATHER_PHONE }}
+          VITE_BRIDE_FATHER_ACCOUNT: ${{ secrets.VITE_BRIDE_FATHER_ACCOUNT }}
+          VITE_BRIDE_MOTHER_PHONE: ${{ secrets.VITE_BRIDE_MOTHER_PHONE }}
+          VITE_BRIDE_MOTHER_ACCOUNT: ${{ secrets.VITE_BRIDE_MOTHER_ACCOUNT }}
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

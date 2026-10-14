@@ -41,7 +41,10 @@ export const Cover = () => {
       </div>
       {/* 커버 이미지 */}
       <div className="image-wrapper">
-        <img src={COVER_IMAGE} alt="sample" />
+        <img
+          src={COVER_IMAGE}
+          alt={`${GROOM_FULLNAME} · ${BRIDE_FULLNAME} 웨딩 사진`}
+        />
       </div>
       <div className="subtitle">Save the date for the wedding of</div>
       {/* 이름 표시 */}

@@ -10,6 +10,7 @@ import {
   GROOM_MOTHER,
   GROOM_TITLE,
   BRIDE_TITLE,
+  INVITATION_OPENING,
 } from "../../const"
 import { Modal } from "../modal"
 import { Button } from "../button"
@@ -33,7 +34,7 @@ export const Invitation = () => {
         <div className="break" />
 
         {/* 초대 문구 */}
-        <div className="content">싱그러운 여름 향기 가득한 날</div>
+        <div className="content">{INVITATION_OPENING}</div>
         <div className="content">소중한 분들을 모시고</div>
         <div className="content">사랑의 약속을 하려고 합니다.</div>
         <div className="break" />
@@ -97,21 +98,19 @@ export const Invitation = () => {
                 <Fragment key={relation}>
                   <div className="relation">{relation}</div>
                   <div>{name}</div>
-                  <div>
-                    {/* 전화 걸기 */}
-                    <PhoneIcon
-                      className="flip icon"
-                      onClick={() => {
-                        window.open(`tel:${phone}`, "_self")
-                      }}
-                    />
-                    {/* 문자 보내기 */}
-                    <EnvelopeIcon
-                      className="icon"
-                      onClick={() => {
-                        window.open(`sms:${phone}`, "_self")
-                      }}
-                    />
+                  <div className="contact-actions">
+                    <a
+                      href={`tel:${phone}`}
+                      aria-label={`${relation} ${name}에게 전화하기`}
+                    >
+                      <PhoneIcon className="flip icon" />
+                    </a>
+                    <a
+                      href={`sms:${phone}`}
+                      aria-label={`${relation} ${name}에게 문자 보내기`}
+                    >
+                      <EnvelopeIcon className="icon" />
+                    </a>
                   </div>
                 </Fragment>
               ),
@@ -124,19 +123,19 @@ export const Invitation = () => {
                 <Fragment key={relation}>
                   <div className="relation">{relation}</div>
                   <div>{name}</div>
-                  <div>
-                    <PhoneIcon
-                      className="flip icon"
-                      onClick={() => {
-                        window.open(`tel:${phone}`, "_self")
-                      }}
-                    />
-                    <EnvelopeIcon
-                      className="icon"
-                      onClick={() => {
-                        window.open(`sms:${phone}`, "_self")
-                      }}
-                    />
+                  <div className="contact-actions">
+                    <a
+                      href={`tel:${phone}`}
+                      aria-label={`${relation} ${name}에게 전화하기`}
+                    >
+                      <PhoneIcon className="flip icon" />
+                    </a>
+                    <a
+                      href={`sms:${phone}`}
+                      aria-label={`${relation} ${name}에게 문자 보내기`}
+                    >
+                      <EnvelopeIcon className="icon" />
+                    </a>
                   </div>
                 </Fragment>
               ),
